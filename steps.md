@@ -4,8 +4,23 @@
 
 * cd into this repo and run `create-react-app mood-tracker`
 * cd into mood-tracker
+
+
+* talk about the goal of mood tracker app
+* talk about how state will handle user interactions
 * show goal image
+* overview of components needed
+  * Mood tracker component with UI controls
+  * a mood point compoenet to show mood
+  * a mood note component to render mood notes from the user
+
 * talk about props vs state
+* What is state anyway?
+* What's the difference between state and props?
+  * talk aobut state in unit 1
+  * talk about RESTful apis being stateless
+  * Values stored in a component's state are mutable, or changeable, attributes.
+  * Like props, which we access through the this.props object, we can access state using `this.state`
 * refactor App.js
 ```jsx
 import { Component } from 'react'
