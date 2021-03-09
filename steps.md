@@ -5,19 +5,19 @@
 * cd into this repo and run `create-react-app mood-tracker`
 * cd into mood-tracker
 
-
 * talk about the goal of mood tracker app
 * talk about how state will handle user interactions
 * show goal image
 * overview of components needed
   * Mood tracker component with UI controls
-  * a mood point compoenet to show mood
+  * a mood point component to show mood
   * a mood note component to render mood notes from the user
+  * wire frame maybe
 
 * talk about props vs state
 * What is state anyway?
 * What's the difference between state and props?
-  * talk aobut state in unit 1
+  * talk about state in unit 1
   * talk about RESTful apis being stateless
   * Values stored in a component's state are mutable, or changeable, attributes.
   * Like props, which we access through the this.props object, we can access state using `this.state`
@@ -96,10 +96,10 @@ export default class MoodPoints extends Component {
 * talk about state -- why do we need it?
   * talk about state from p1
   * RESTful APIs are stateless https://restfulapi.net/statelessness/
-  * stateless backend -- stateful forntend
+  * stateless backend -- stateful frontend
 
 * add state as a constructor to MoodTracker.jsx
-  * talk about defining inital state
+  * talk about defining initial state
   * talk about this as being the old way of initializing state
   * talk about when you might want to have a constructor
   * demonstrate manually changing the value
@@ -125,6 +125,9 @@ export default class MoodPoints extends Component {
   }
 ```
 
+* update `<MoodPoints points={this.state.points} />` in render
+  * mess with state to show rendering differences
+
 # Changing state
 
 * add a Button to increase mood
@@ -137,7 +140,7 @@ export default class MoodPoints extends Component {
 * talk about synthetic events as apart of the virtual DOM
   * how they trigger the virtual DOM to rerender
   * how they are similar to DOM events
-  * How thay are different
+  * How they are different
   * Common ones: 
     * onClick - buttons
     * onChange - text inputs
@@ -156,7 +159,7 @@ export default class MoodPoints extends Component {
   };
 ```
 
-* talk aboout this.setState (inherited from Component)
+* talk about this.setState (inherited from Component)
 ```jsx
   handleIncreaseMood = () => {
     // this.setState is inherited from Component
@@ -169,7 +172,7 @@ export default class MoodPoints extends Component {
   * talk about state setting being asyncronous
   * add console log as callback
 * talk about event binding
-* show binding with constructor
+* show binding with constructor (optional)
 ```jsx
     // have to bind methods to this for them to access this (the prototype)
     this.handleIncreaseMood = this.handleIncreaseMood.bind(this)
@@ -278,7 +281,7 @@ const noteComponents = placeHolderNotes.map((placeHolderNote, index) =>{
 ## Adding a form
 
 * talk about needing two synthetic events: onChange and onSubmit
-* talk about using htmlFor to label the imput
+* talk about using htmlFor to label the input
 * make form
 ```jsx
         <form onSubmit={this.handleSubmit}>
@@ -328,7 +331,7 @@ const noteComponents = placeHolderNotes.map((placeHolderNote, index) =>{
       noteInput: e.target.value
     }, () => console.log(this.state))
   }
-    // show how this thows an error
+    // show how this throws an error
   handleSubmit = (e) => {
     e.preventDefault()
     // will bug out -- the return of push() is the length of the new array
@@ -340,6 +343,23 @@ const noteComponents = placeHolderNotes.map((placeHolderNote, index) =>{
       })
     }, () => console.log(this.state))
   }
+```
+* using concat()
+* talk about mutating state retriggering a DOM rerender
+
+```jsx
+    this.setState((prevState, props) => {
+      // build note data object
+      const newNoteData = {
+        note: prevState.noteInput,
+        date: new Date().toLocaleDateString(),
+        points: prevState.points
+      }
+      return { 
+        // sick spread operator!
+        noteData: prevState.noteData.concat([newNoteData])
+      }     
+    }, () => this.setState({ noteInput: '' }))  
 ```
 
 * make it nice or make it twice
@@ -362,6 +382,7 @@ const noteComponents = placeHolderNotes.map((placeHolderNote, index) =>{
   }
 ```
 * finally, update the map in the return
+  * update the param name to the callback in the map too
 
 ## Add Delete Button
 
@@ -369,11 +390,30 @@ const noteComponents = placeHolderNotes.map((placeHolderNote, index) =>{
 * explain how to pass a handler as a prop
 * update the mood note with a button
 
-super stretch
-
-* stub delete function
 ```jsx
+  handleDeleteNote = (index) => {
+    this.setState((prevState, props) => {
+      // make a new array from prev state
+      let newNoteData = [...prevState.noteData]
+      // splice note out
+      newNoteData.splice(index, 1)
 
+      return {
+        noteData: newNoteData
+      }
+    })
+  }
+
+  // the mood note component in the map
+          <MoodNote 
+          key={`note ${index}`}
+          points={placeHolderNote.points}
+          date={placeHolderNote.date}
+          note={placeHolderNote.note}
+          // create a closure with the array index
+          handleDeleteNote={() => { this.handleDeleteNote(index) }}
+        />
+```
 
 ## You do
 
