@@ -23,7 +23,7 @@ Users will be able to keep track of their mood on a scale of 1-10 and make notes
 
 The Final App will look like this:
 
-![mood app](https://i.imgur.com/VAUBXUR.png)
+![mood app](https://i.imgur.com/5G8TEFc.png)
 
 ## Getting Started
 
